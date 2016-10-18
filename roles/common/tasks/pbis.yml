@@ -6,25 +6,30 @@
    enabled: yes
    gpgcheck: yes
    gpgkey: http://repo.pbis.beyondtrust.com/yum/RPM-GPG-KEY-pbis
+  tags: pbis
 
 
 - name: Install PBIS Enterprise
   yum:
    name: pbis-enterprise
-   state: present
+   state: latest
+  tags: pbis
 
 - name: Change name of Server
   become_user: root
   become_method: sudo
   command: /opt/pbis/bin/domainjoin-cli setname {{ short_hostname }}
   when: ansible_hostname != "{{ short_hostname }}"
+  tags: pbis
 
 - name: Check domain status
   shell: /opt/pbis/bin/get-status | grep Netbios | awk '{print $3}'
   register: domain_status
+  tags: pbis
 
 - name: Join the Domain!
   become_user: root
   become_method: sudo
   command: /opt/pbis/bin/domainjoin-cli join win.ad.jhu.edu {{ username }} {{ domain_password }}
   when:  domain_status.stdout == ""
+  tags: pbis
