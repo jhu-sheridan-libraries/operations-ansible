@@ -1,0 +1,3 @@
+[postgresql]
+psql03.mse.jhu.edu ansible_user=ops short_hostname=msel-psql03
+

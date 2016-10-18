@@ -1,0 +1,30 @@
+- name: Creates repo file for PBIS Enterprise
+  yum_repository:
+   name: pbis
+   description: PBIS Enterprise
+   baseurl: http://repo.pbis.beyondtrust.com/yum/pbise/$basearch
+   enabled: yes
+   gpgcheck: yes
+   gpgkey: http://repo.pbis.beyondtrust.com/yum/RPM-GPG-KEY-pbis
+
+
+- name: Install PBIS Enterprise
+  yum:
+   name: pbis-enterprise
+   state: present
+
+- name: Change name of Server
+  become_user: root
+  become_method: sudo
+  command: /opt/pbis/bin/domainjoin-cli setname {{ short_hostname }}
+  when: ansible_hostname != "{{ short_hostname }}"
+
+- name: Check domain status
+  shell: /opt/pbis/bin/get-status | grep Netbios | awk '{print $3}'
+  register: domain_status
+
+- name: Join the Domain!
+  become_user: root
+  become_method: sudo
+  command: /opt/pbis/bin/domainjoin-cli join win.ad.jhu.edu {{ username }} {{ domain_password }}
+  when:  domain_status.stdout == ""

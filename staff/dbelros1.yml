@@ -1,0 +1,3 @@
+- authorized_key: user=dbelros1 key="{{ item }}"
+  with_file:
+    - public_keys/derek_mbp13.pub
