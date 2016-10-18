@@ -1,0 +1,7 @@
+- name: Creates sudoers file for msel-operations
+  lineinfile:
+    dest=/etc/sudoers.d/msel-operations
+    line='%msel-operations ALL=(ALL) ALL'
+    state=present
+    create=yes
+    validate='visudo -cf %s'

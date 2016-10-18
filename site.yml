@@ -1,0 +1,14 @@
+---
+- name: Playbook for psql03.mse.jhu.edu Operations
+  hosts: psql03.mse.jhu.edu
+  vars_prompt:
+    - name: "domain_username"
+      prompt: "Enter domain username"
+      private: no
+
+    - name: "domain_password"
+      prompt: "Enter domain password"
+      private: yes
+
+  roles:
+    - common_linux 

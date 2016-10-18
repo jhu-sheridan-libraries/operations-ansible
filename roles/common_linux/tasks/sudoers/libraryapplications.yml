@@ -1,0 +1,7 @@
+- name: Creates sudoers file for msel-libraryapplications
+  lineinfile:
+    dest=/etc/sudoers.d/msel-libraryapplications
+    line='%msel-libraryapplications ALL=(ALL) ALL'
+    state=present
+    create=yes
+    validate='visudo -cf %s'
