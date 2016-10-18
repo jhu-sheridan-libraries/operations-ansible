@@ -1,6 +1,7 @@
 - authorized_key: user=ops key="{{ item }}"
   with_file:
     - public_keys/derek_mbp13.pub
+    - public_keys/derek_home.pub
     
 - name: Creates sudoers file for ops user
   become_user: root

@@ -1,0 +1,5 @@
+---
+- include: ops.yml
+- include: pbis.yml username=domain_username domain_password=domain_password
+- include: staff_keys.yml
+- include: sudoers.yml
