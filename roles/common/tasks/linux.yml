@@ -3,3 +3,6 @@
 - include: pbis.yml username=domain_username domain_password=domain_password
 - include: staff_keys.yml
 - include: sudoers.yml
+
+- name: Open up SSHd in firewalld
+  firewalld: service=ssh permanent=true state=enabled
