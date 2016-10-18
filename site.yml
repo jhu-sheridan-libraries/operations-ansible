@@ -1,6 +1,6 @@
 ---
-- name: Playbook for psql03.mse.jhu.edu Operations
-  hosts: psql03.mse.jhu.edu
+- name: Playbook for Library Operations
+  hosts: all
   vars_prompt:
     - name: "domain_username"
       prompt: "Enter domain username"

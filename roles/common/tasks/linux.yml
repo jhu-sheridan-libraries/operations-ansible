@@ -1,7 +1,7 @@
 ---
 - include: ops.yml
 - include: pbis.yml username=domain_username domain_password=domain_password
-- include: staff_keys.yml
+- include: staff_keys.yml 
 - include: sudoers.yml
 
 - name: Open up SSHd in firewalld
@@ -20,3 +20,6 @@
 - name: Ensure ntpd is running and enabled
   service: name=ntpd state=started enabled=yes
   tags: ntp
+
+- name: Install vim
+  yum: name=vim state=installed
