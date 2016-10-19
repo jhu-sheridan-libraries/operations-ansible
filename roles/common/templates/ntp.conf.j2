@@ -3,7 +3,9 @@ driftfile /var/lib/ntp/drift
 restrict 127.0.0.1 
 restrict -6 ::1
 
-server {{ ntpserver }}
+{% for server in ntpserver %}
+server {{ server }}
+{% endfor %}
 
 includefile /etc/ntp/crypto/pw
 

@@ -1,1 +1,4 @@
 short_hostname: msel-dspace02
+ssl_certificates: 
+  - star_library.jhu.edu
+  - star_mse.jhu.edu

@@ -1,0 +1,24 @@
+---
+- name: Populate SSL Certificates
+  become: true
+  copy: content={{ssl_certs[item].cert}} dest=/etc/pki/tls/certs/{{ item }}.crt owner=root group=root mode=0644
+  with_list:
+    "{{ ssl_certificates|default({}) }}"
+  when:
+    ssl_certificates is defined
+
+- name: Populate SSL Interim Certificates
+  become: true
+  copy: content={{ssl_certs[item].interim}} dest=/etc/pki/tls/certs/{{ item }}_interim.crt owner=root group=root mode=0644
+  with_list:
+    "{{ ssl_certificates|default({}) }}"
+  when:
+    ssl_certificates is defined
+
+- name: Populate SSL Keys
+  become: true
+  copy: content={{ssl_certs[item].key}} dest=/etc/pki/tls/private/{{item}}.key owner=root group=root mode=0600
+  with_list:
+    "{{ ssl_certificates|default({}) }}"
+  when:
+    ssl_certificates is defined
