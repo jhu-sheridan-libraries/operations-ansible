@@ -4,6 +4,7 @@
     - public_keys/derek_home.pub
     
 - name: Creates sudoers file for ops user
+  become: true
   become_user: root
   become_method: sudo
   lineinfile:
@@ -11,4 +12,4 @@
     line="ops  ALL=(ALL) NOPASSWD{{':'}} ALL"
     state=present
     create=yes
-    validate='visudo -cf %s'
+    validate='/sbin/visudo -cf %s'

@@ -1,4 +1,6 @@
 - name: Creates sudoers file for msel-operations
+  become: true
+  become_method: sudo
   lineinfile:
     dest=/etc/sudoers.d/msel-operations
     line='%msel-operations ALL=(ALL) ALL'

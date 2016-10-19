@@ -30,6 +30,6 @@
 - name: Join the Domain!
   become_user: root
   become_method: sudo
-  command: /opt/pbis/bin/domainjoin-cli join win.ad.jhu.edu {{ username }} {{ domain_password }}
+  command: /opt/pbis/bin/domainjoin-cli join win.ad.jhu.edu {{ username }} {{ password }}
   when:  domain_status.stdout == ""
   tags: pbis

@@ -1,4 +1,7 @@
 - authorized_key: user=dbelros1 key="{{ item }}"
+  become: true
+  become_user: root
+  become_method: sudo
   with_file:
     - public_keys/derek_mbp13.pub
     - public_keys/derek_home.pub

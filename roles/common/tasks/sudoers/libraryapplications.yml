@@ -1,4 +1,6 @@
 - name: Creates sudoers file for msel-libraryapplications
+  become: true
+  become_method: sudo
   lineinfile:
     dest=/etc/sudoers.d/msel-libraryapplications
     line='%msel-libraryapplications ALL=(ALL) ALL'

@@ -1,25 +1,30 @@
 ---
 - include: ops.yml
-- include: pbis.yml username=domain_username domain_password=domain_password
+- include: pbis.yml username={{ domain_username }} password={{ domain_password }}
 - include: staff_keys.yml 
 - include: sudoers.yml
 
 - name: Open up SSHd in firewalld
+  become: true
   firewalld: service=ssh permanent=true state=enabled
 
 - name: Ensure ntp is installed
+  become: true
   yum: name=ntp state=installed
   tags: ntp
 
 - name: Ensure ntp is configured
+  become: true
   template: src=ntp.conf.j2 dest=/etc/ntp.conf
   notify:
     - restart ntpd
   tags: ntp
 
 - name: Ensure ntpd is running and enabled
+  become: true
   service: name=ntpd state=started enabled=yes
   tags: ntp
 
 - name: Install vim
+  become: true
   yum: name=vim state=installed
