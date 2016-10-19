@@ -3,6 +3,7 @@
 - include: pbis.yml username={{ domain_username }} password={{ domain_password }}
 - include: staff_keys.yml 
 - include: sudoers.yml
+- include: ssl.yml
 
 - name: Open up SSHd in firewalld
   become: true
@@ -28,3 +29,5 @@
 - name: Install vim
   become: true
   yum: name=vim state=installed
+
+
