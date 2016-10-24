@@ -1,1 +1,4 @@
 *.retry
+staging
+production
+testing
