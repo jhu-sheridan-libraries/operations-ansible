@@ -1,0 +1,68 @@
+---
+- name: include ssl.yml vars
+  include_vars: vars/ssl.yml
+
+- name: Add Docker Repo
+  yum_repository:
+    name: docker
+    description: Offical Docker Repo
+    baseurl: https://yum.dockerproject.org/repo/main/centos/7/
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://yum.dockerproject.org/gpg 
+  tags: docker
+
+- name: Ensure docker port 2376 is open in Firewalld
+  become: true
+  firewalld: port=2376/tcp permanent=true state=enabled
+  notify:
+    - restart firewalld
+
+- name: Ensure /etc/docker/ssl exists
+  become: true
+  file: path=/etc/docker/ssl state=directory mode=0600 owner=root group=root
+  tags: docker
+
+- name: Ensure docker.service.d is created in /etc/systemd/system
+  become: true
+  file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
+  tags: docker
+
+- name: Copy docker config to systemd
+  become: true
+  copy: src=files/docker.conf dest=/etc/systemd/system/docker.service.d/docker.conf owner=root group=root mode=0644
+  tags: docker
+
+- name: Ensure docker-engine is installed
+  become: true
+  yum: name=docker-engine state=installed
+  tags: docker
+
+- name: Install Docker certificate
+  become: true
+  copy: content={{docker_ssl_certs[item].cert}} dest=/etc/docker/ssl/cert.pem owner=root group=root 
+  with_items:
+    - "{{ inventory_hostname }}"
+  tags: docker
+
+- name: Install Docker key
+  become: true
+  copy: content={{docker_ssl_certs[item].key}} dest=/etc/docker/ssl/key.pem owner=root group=root 
+  with_items:
+    - "{{ inventory_hostname }}"
+  tags: docker
+
+- name: Install Docker ca
+  become: true
+  copy: content={{docker_ssl_certs[item].ca}} dest=/etc/docker/ssl/ca.pem owner=root group=root 
+  with_items:
+    - "{{ inventory_hostname }}"
+  tags: docker
+  notify:
+    - restart docker
+
+- name: Ensure docker is running and enabled
+  become: true
+  service: name=docker state=started enabled=yes
+  tags: docker
+

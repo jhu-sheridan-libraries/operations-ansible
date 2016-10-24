@@ -13,3 +13,7 @@
   roles:
     - common
 
+- name: Docker playbook
+  hosts: infrastructure-docker
+  roles:
+    - docker
