@@ -2,3 +2,7 @@
 - name: restart ntpd
   become: true
   service: name=ntpd state=restarted
+
+- name: restart sshd
+  become: true
+  service: name=sshd state=restarted

@@ -1,6 +1,6 @@
 ---
-- include: ops.yml
 - include: pbis.yml username={{ domain_username }} password={{ domain_password }}
+- include: ops.yml
 - include: staff_keys.yml 
 - include: sudoers.yml
 - include: ssl.yml
