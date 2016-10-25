@@ -10,3 +10,7 @@
    validate='visudo -cf %s'
   with_items:
     "{{ sudoers|default([]) }}"
+
+- name: copy a default sudoers file to /etc/sudoers
+  become: true
+  copy: src=files/sudoers dest=/etc/sudoers owner=root group=root mode=0440
