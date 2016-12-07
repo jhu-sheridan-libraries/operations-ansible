@@ -1,0 +1,8 @@
+---
+- name: Ensure nrpe is installed
+  become: true
+  yum: name=nrpe state=installed
+
+- name: Ensure nagios-plugins-all is installed
+  become: true
+  yum: name=nagios-plugins-all state=installed
