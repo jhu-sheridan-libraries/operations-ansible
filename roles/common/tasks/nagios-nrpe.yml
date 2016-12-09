@@ -6,3 +6,22 @@
 - name: Ensure nagios-plugins-all is installed
   become: true
   yum: name=nagios-plugins-all state=installed
+
+- name: Ensure NRPE port (5666) is open in firewalld
+  become: true
+  firewalld: port=5666/tcp state=enabled permanent=true
+
+- name: Ensure nrpe service is installed, enabled and running
+  become: true
+  service: name=nrpe state=started enabled=yes
+
+- name: Ensure NRPE check check_root_drive is installed and configured
+  become: true
+  lineinfile: 
+   dest=/etc/nrpe.d/check_root.cfg
+   line='command[check_root]=/usr/lib64/nagios/plugins/check_disk -w 10% -c 5% -p /'
+   state=present
+   create=yes
+   mode=0644
+  notify:
+   - restart nrpe

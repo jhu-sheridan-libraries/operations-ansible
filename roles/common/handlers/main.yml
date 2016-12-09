@@ -6,3 +6,7 @@
 - name: restart sshd
   become: true
   service: name=sshd state=restarted
+
+- name: restart nrpe
+  become: true
+  service: name=nrpe state=restarted
