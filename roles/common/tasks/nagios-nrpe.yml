@@ -7,6 +7,16 @@
   become: true
   yum: name=nagios-plugins-all state=installed
 
+- name: Ensure nrpe accepts connections from monitoring.mse.jhu.edu (128.220.205.25)
+  become: true
+  lineinfile:
+   dest=/etc/nagios/nrpe.cfg
+   regexp='^allowd_hosts='
+   line='allowed_hosts=128.220.205.25,127.0.0.1'
+   state=present
+  notify:
+   - restart nrpe
+
 - name: Ensure NRPE port (5666) is open in firewalld
   become: true
   firewalld: port=5666/tcp state=enabled permanent=true
