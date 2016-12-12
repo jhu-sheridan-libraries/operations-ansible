@@ -7,19 +7,23 @@
   become: true
   yum: name=nagios-plugins-all state=installed
 
-- name: Ensure nrpe accepts connections from monitoring.mse.jhu.edu (128.220.205.25)
+- name: Ensure nrpe.cfg is what we want it to be
   become: true
-  lineinfile:
-   dest=/etc/nagios/nrpe.cfg
-   regexp='^allowd_hosts='
-   line='allowed_hosts=128.220.205.25,127.0.0.1'
-   state=present
   notify:
-   - restart nrpe
+    - restart nrpe
+  template:
+    src=nrpe.cfg.j2
+    dest=/etc/nagios/nrpe.cfg
+    owner=root
+    group=root
+    mode=0644
+    backup=yes
 
 - name: Ensure NRPE port (5666) is open in firewalld
   become: true
   firewalld: port=5666/tcp state=enabled permanent=true
+  notify:
+    - restart firewalld
 
 - name: Ensure nrpe service is installed, enabled and running
   become: true
@@ -35,3 +39,23 @@
    mode=0644
   notify:
    - restart nrpe
+
+- name: Ensure NRPE check check_cpu_perf is configured
+  become: true
+  lineinfile:
+    dest=/etc/nrpe.d/check_cpu_perf.cfg
+    line='command[check_cpu_perf]=/usr/lib64/nagios/plugins/check_cpu_perf.sh 10 5'
+    state=present
+    create=yes
+    mode=0644
+  notify:
+    - restart nrpe
+
+- name: Ensure check_cpu_perf.sh is in the nagios plugins directory
+  become: true
+  copy:
+    src: check_cpu_perf.sh
+    dest: /usr/lib64/nagios/plugins/check_cpu_perf.sh
+    owner: root
+    group: root
+    mode: 0755

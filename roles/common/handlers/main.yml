@@ -10,3 +10,7 @@
 - name: restart nrpe
   become: true
   service: name=nrpe state=restarted
+
+- name: restart firewalld
+  become: true
+  service: name=firewalld state=restarted

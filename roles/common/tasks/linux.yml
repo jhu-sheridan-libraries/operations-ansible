@@ -32,4 +32,6 @@
   become: true
   yum: name=vim state=installed
 
-
+- name: Ensure sysstat is installed
+  become: true
+  yum: name=sysstat state=installed
