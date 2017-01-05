@@ -10,3 +10,8 @@
   roles:
     - docker
 
+
+- name: Nagios Servers
+  hosts: nagios-servers
+  roles:
+    - nagios-server
