@@ -1,0 +1,3 @@
+---
+- debug:
+    msg: "Triggering nagios server tasks"
