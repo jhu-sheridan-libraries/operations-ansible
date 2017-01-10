@@ -19,7 +19,7 @@
   become_user: root
   become_method: sudo
   command: /opt/pbis/bin/domainjoin-cli setname {{ short_hostname }}
-  when: ansible_hostname != "{{ short_hostname }}"
+  when: ansible_hostname != "{{ hostname }}"
   tags: pbis
 
 - name: Check domain status
