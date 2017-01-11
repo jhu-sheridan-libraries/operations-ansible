@@ -18,16 +18,24 @@
 - name: Change name of Server
   become_user: root
   become_method: sudo
+<<<<<<< HEAD:roles/common/tasks/pbis.yml
   command: /opt/pbis/bin/domainjoin-cli setname {{ hostname }}
+=======
+  command: /opt/pbis/bin/domainjoin-cli setname {{ short_hostname }}
+>>>>>>> 8717bc8c2698962578e76cba0c3ab826f66fd4c8:roles/common/tasks/pbis.yml
   when: ansible_hostname != "{{ hostname }}"
   tags: pbis
 
 - name: Check domain status
   shell: /opt/pbis/bin/get-status | grep Netbios | awk '{print $3}'
   register: domain_status
+<<<<<<< HEAD:roles/common/tasks/pbis.yml
   changed_when: False
   tags: pbis
   
+=======
+  tags: pbis
+>>>>>>> 8717bc8c2698962578e76cba0c3ab826f66fd4c8:roles/common/tasks/pbis.yml
 
 - name: Join the Domain!
   become_user: root
