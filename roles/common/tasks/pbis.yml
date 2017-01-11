@@ -18,18 +18,20 @@
 - name: Change name of Server
   become_user: root
   become_method: sudo
-  command: /opt/pbis/bin/domainjoin-cli setname {{ short_hostname }}
+  command: /opt/pbis/bin/domainjoin-cli setname {{ hostname }}
   when: ansible_hostname != "{{ hostname }}"
   tags: pbis
 
 - name: Check domain status
   shell: /opt/pbis/bin/get-status | grep Netbios | awk '{print $3}'
   register: domain_status
+  changed_when: False
   tags: pbis
+  
 
 - name: Join the Domain!
   become_user: root
   become_method: sudo
-  command: /opt/pbis/bin/domainjoin-cli join win.ad.jhu.edu {{ lookup('ini', 'user section=jhed file=~/.jhed') }} {{ lookup('ini, 'user section=jhed file=~/.jhed)  }}
+  command: /opt/pbis/bin/domainjoin-cli join win.ad.jhu.edu {{ lookup('ini', 'user section=jhed file=~/.jhed') }} {{ lookup('ini', 'pass section=jhed file=~/.jhed')  }}
   when:  domain_status.stdout == ""
   tags: pbis

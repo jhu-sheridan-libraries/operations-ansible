@@ -4,7 +4,6 @@
 - include: ops.yml
 - include: staff_keys.yml 
 - include: sudoers.yml
-- include: ssl.yml
 - include: nagios-nrpe.yml
 
 - name: Open up SSHd in firewalld

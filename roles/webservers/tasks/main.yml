@@ -1,4 +1,8 @@
 ---
+- name: Load SSL files
+  include_vars: main.yml
+  no_log: true
+
 - name: Populate SSL Certificates
   become: true
   copy: content={{ssl_certs[item].cert}} dest=/etc/pki/tls/certs/{{ item }}.crt owner=root group=root mode=0644

@@ -3,5 +3,8 @@
   become_user: root
   become_method: sudo
   with_file:
+    - public_keys/derek_secure.pub
+
+- authorized_key: user=dbelros1 key="{{ item }}" state=absent
+  with_file:
     - public_keys/derek_mbp13.pub
-    - public_keys/derek_home.pub
