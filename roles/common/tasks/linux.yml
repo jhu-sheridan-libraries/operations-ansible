@@ -5,6 +5,7 @@
 - include: staff_keys.yml 
 - include: sudoers.yml
 - include: nagios-nrpe.yml
+- include: spacewalk.yml
 
 - name: Open up SSHd in firewalld
   become: true

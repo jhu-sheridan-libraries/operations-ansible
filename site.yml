@@ -9,7 +9,7 @@
   hosts: linux-webservers
 
   roles:
-    - webservers
+    - webserver
 
 - name: Docker playbook
   hosts: infrastructure-docker
