@@ -51,3 +51,7 @@
 - name: Ensure fail2ban is enabled and started
   become: true
   service: name=fail2ban state=started enabled=yes
+
+- name: Disable microcode service in RHEL/CentOS VMs
+  service: name=microcode state=stopped enabled=no
+  when: ansible_virtualization_role == "guest"
