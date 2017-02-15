@@ -14,3 +14,6 @@
 - name: restart firewalld
   become: true
   service: name=firewalld state=restarted
+
+- name: systemd fail2ban daemon-reload
+  systemd: daemon_reload=yes name=fail2ban 

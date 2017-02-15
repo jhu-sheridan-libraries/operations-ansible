@@ -48,10 +48,33 @@
     name: fail2ban
     state: latest
 
+- name: Copy altered (fixed) fail2ban.service into /etc/systemd/system
+  copy:
+    src: fail2ban.service
+    dest: /etc/systemd/system/
+    owner: root
+    group: root
+    mode: 644
+  notify: systemd fail2ban daemon-reload 
+
 - name: Ensure fail2ban is enabled and started
   become: true
   service: name=fail2ban state=started enabled=yes
 
-- name: Disable microcode service in RHEL/CentOS VMs
-  service: name=microcode state=stopped enabled=no
+- name: Uninstall microcode
+  package:
+    name: microcode_ctl
+    state: absent
   when: ansible_virtualization_role == "guest"
+
+- name: Install tmux
+  yum: name=tmux state=installed
+
+- name: Install open-vm-tools on CentOS/RHEL 7 VMs
+  yum:
+    name: open-vm-tools
+    state: latest
+  when: (ansible_virtualization_role == "guest") and
+        (ansible_os_family == "RedHat") and
+        (ansible_distribution_major_version == "7")
+
