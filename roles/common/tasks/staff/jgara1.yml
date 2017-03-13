@@ -1,0 +1,12 @@
+- file:
+    path: /home/jgara1
+    state: directory
+    mode: 0700
+    owner: jgara1
+
+- authorized_key: user=dbelros1 key="{{ item }}"
+  become: true
+  become_user: root
+  become_method: sudo
+  with_file:
+    - public_keys/jgara1.pub

@@ -5,12 +5,6 @@
   roles:
     - common
 
-- name: Web Certificates
-  hosts: linux-webservers
-
-  roles:
-    - webserver
-
 - name: Docker playbook
   hosts: infrastructure-docker
   roles:

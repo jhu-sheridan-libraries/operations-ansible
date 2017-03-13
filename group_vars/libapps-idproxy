@@ -1,0 +1,8 @@
+ssl_certificates:
+  - star_mse.jhu.edu
+  - star_library.jhu.edu
+
+sudoers: 
+  - dms-admins
+
+remove_sudoers:

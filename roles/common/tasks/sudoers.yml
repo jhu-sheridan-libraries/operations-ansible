@@ -11,6 +11,11 @@
   with_items:
     "{{ sudoers|default([]) }}"
 
+- name: Remove old sudoers using remove_sudoers variable
+  file: name=/etc/sudoers.d/msel-{{item}} state=absent
+  with_items:
+    "{{ remove_sudoers|default([]) }}"
+
 - name: copy a default sudoers file to /etc/sudoers
   become: true
   copy: src=files/sudoers dest=/etc/sudoers owner=root group=root mode=0440
