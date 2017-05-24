@@ -3,6 +3,7 @@
   hosts: all
 
   roles:
+    - jhu-sheridan-libraries.pbis
     - common
 
 - name: Docker playbook

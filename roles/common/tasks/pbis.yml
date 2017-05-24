@@ -1,20 +1,3 @@
-- name: Creates repo file for PBIS Enterprise
-  yum_repository:
-   name: pbis
-   description: PBIS Enterprise
-   baseurl: http://repo.pbis.beyondtrust.com/yum/pbise/$basearch
-   enabled: yes
-   gpgcheck: yes
-   gpgkey: http://repo.pbis.beyondtrust.com/yum/RPM-GPG-KEY-pbis
-  tags: pbis
-
-
-- name: Install PBIS Enterprise
-  yum:
-   name: pbis-enterprise
-   state: latest
-  tags: pbis
-
 - name: Change name of Server
   become_user: root
   become_method: sudo
