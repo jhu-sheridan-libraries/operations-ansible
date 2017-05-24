@@ -18,8 +18,8 @@
 - name: Change name of Server
   become_user: root
   become_method: sudo
-  command: /opt/pbis/bin/domainjoin-cli setname {{ hostname }}
-  when: ansible_hostname != "{{ hostname }}"
+  command: "/opt/pbis/bin/domainjoin-cli setname {{ hostname }}"
+  when: ansible_hostname != hostname
   tags: pbis
 
 - name: Check domain status

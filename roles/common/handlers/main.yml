@@ -17,3 +17,7 @@
 
 - name: systemd fail2ban daemon-reload
   systemd: daemon_reload=yes name=fail2ban 
+
+- name: restart postfix
+  service: name=postfix state=restarted
+  

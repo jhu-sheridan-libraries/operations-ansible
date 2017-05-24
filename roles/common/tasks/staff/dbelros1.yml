@@ -15,3 +15,16 @@
   with_file:
     - public_keys/derek_mbp13.pub
     - public_keys/derek_home.pub
+    - public_keys/jgara1.pub
+
+- copy: 
+    src: "/etc/skel/{{ item }}"
+    dest: /home/dbelros1/{{item}}
+    owner: dbelros1
+    group: msel-wheel
+    force: no
+    remote_src: true
+  with_items:
+    - ".bash_logout"
+    - ".bash_profile"
+    - ".bashrc"

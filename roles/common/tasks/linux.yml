@@ -1,11 +1,6 @@
 ---
 - include: epel.yml
 - include: pbis.yml username={{ domain_username }} password={{ domain_password }}
-- include: ops.yml
-- include: staff_keys.yml 
-- include: sudoers.yml
-- include: nagios-nrpe.yml
-- include: spacewalk.yml
 
 - name: Open up SSHd in firewalld
   become: true
@@ -74,7 +69,44 @@
   yum:
     name: open-vm-tools
     state: latest
-  when: (ansible_virtualization_role == "guest") and
-        (ansible_os_family == "RedHat") and
+  when: (ansible_os_family == "RedHat") and
         (ansible_distribution_major_version == "7")
+
+- name: Ensure postfix is installed
+  become: yes
+  package:
+    name: postfix
+    state: installed
+
+- name: Ensure postfix is started and enabled
+  become: yes
+  service:
+    name: postfix
+    state: started
+    enabled: yes
+
+- name: Ensure Postfix is set to use relayhost
+  become: yes
+  lineinfile:
+    path: /etc/postfix/main.cf
+    state: present
+    regexp: '^relayhost='
+    line: 'relayhost=smtp.johnshopkins.edu'
+  notify: restart postfix
+
+- name: Ensure Postfix hostname is set (use ansible_hostname)
+  become: yes
+  lineinfile:
+    path: /etc/postfix/main.cf
+    state: present
+    regexp: '^myhostname='
+    line: "myhostname={{ ansible_host }}"
+  notify: restart postfix
+
+- include: nagios-nrpe.yml
+- include: spacewalk.yml
+- include: ops.yml
+- include: staff_keys.yml 
+- include: sudoers.yml
+
 

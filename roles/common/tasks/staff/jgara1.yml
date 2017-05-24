@@ -4,9 +4,21 @@
     mode: 0700
     owner: jgara1
 
-- authorized_key: user=dbelros1 key="{{ item }}"
+- authorized_key: user=jgara1 key="{{ item }}"
   become: true
   become_user: root
   become_method: sudo
   with_file:
     - public_keys/jgara1.pub
+
+- copy: 
+    src: "/etc/skel/{{ item }}"
+    dest: /home/jgara1/{{item}}
+    owner: jgara1
+    group: msel-wheel
+    force: no
+    remote_src: true
+  with_items:
+    - ".bash_logout"
+    - ".bash_profile"
+    - ".bashrc"

@@ -1,3 +1,9 @@
+- name: Ensure ops user exists
+  user:
+    name: ops
+    comment: "Operations User"
+    password: "$6$clh0WnZlxsu77oEE$VovssdADbgvuaXrc0RGsQGj8uHqvahUdOvOFLfarHoC6.flDA7LMvxvy9hG./u5uU7HISUIjeWaJxrdVc.bCN."
+
 - authorized_key: user=ops key="{{ item }}"
   with_file:
     - public_keys/derek_secure.pub
@@ -9,11 +15,9 @@
     
 - name: Creates sudoers file for ops user
   become: true
-  become_user: root
-  become_method: sudo
   lineinfile:
-    dest=/etc/sudoers.d/ops
-    line="ops  ALL=(ALL) NOPASSWD{{':'}} ALL"
-    state=present
-    create=yes
-    validate='/sbin/visudo -cf %s'
+    dest: /etc/sudoers.d/ops
+    line: "ops ALL=(ALL) NOPASSWD{{':'}} ALL"
+    state: present
+    create: yes
+    validate: '/sbin/visudo -cf %s'
